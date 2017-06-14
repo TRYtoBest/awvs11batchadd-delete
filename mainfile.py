@@ -3,12 +3,12 @@ import urllib2
 import ssl
 import json
 __author="jamesj"
-#localhost:3443È«²¿Ìæ»»ÎªawvsËùÔÚµÄ·şÎñÆ÷¼°¶Ë¿Ú
+#localhost:3443å…¨éƒ¨æ›¿æ¢ä¸ºawvsæ‰€åœ¨çš„æœåŠ¡å™¨åŠç«¯å£
 username='mail@mail.com'
-#ÕËºÅÓÊÏä
-pw='sha256¼ÓÃÜºóµÄÃÜÂë'
-#sha256¼ÓÃÜºóµÄÃÜÂë
-#ÒÔÉÏÄÚÈİÎªÅäÖÃÄÚÈİ£¬È»ºó°ÑÒªÌí¼ÓµÄurlÁĞ±í±£´æ³Étestawvs.txtÎÄ¼ş£¬·ÅÔÚ¸Ã½Å±¾ÏÂÔËĞĞ¸Ã½Å±¾¡£
+#è´¦å·é‚®ç®±
+pw='sha256åŠ å¯†åçš„å¯†ç '
+#sha256åŠ å¯†åçš„å¯†ç 
+#ä»¥ä¸Šå†…å®¹ä¸ºé…ç½®å†…å®¹ï¼Œç„¶åæŠŠè¦æ·»åŠ çš„urlåˆ—è¡¨ä¿å­˜æˆtestawvs.txtæ–‡ä»¶ï¼Œæ”¾åœ¨è¯¥è„šæœ¬ä¸‹è¿è¡Œè¯¥è„šæœ¬ã€‚
 ssl._create_default_https_context = ssl._create_unverified_context
 url_login="https://localhost:3443/api/v1/me/login"
 send_headers_login={
@@ -20,12 +20,12 @@ send_headers_login={
 }
 
 data_login='{"email":"'+username+'","password":"'+pw+'","remember_me":false}'
-#data_loginÀïÃæµÄÃÜÂë¼ÓÃÜ·½Ê½Îªsha256,Í¨¹ıburp×¥°ü¿É»ñÈ¡,Ò²¿ÉÒÔÊ¹ÓÃ(http://tool.oschina.net/encrypt?type=2)°ÑÃÜÂë½øĞĞ¼ÓÃÜÖ®ºóÌîÈë£¬ÇëÇø·Ö´óĞ¡Ğ´¡¢ÖĞÓ¢ÎÄ×Ö·û¡£
+#data_loginé‡Œé¢çš„å¯†ç åŠ å¯†æ–¹å¼ä¸ºsha256,é€šè¿‡burpæŠ“åŒ…å¯è·å–,ä¹Ÿå¯ä»¥ä½¿ç”¨(http://tool.oschina.net/encrypt?type=2)æŠŠå¯†ç è¿›è¡ŒåŠ å¯†ä¹‹åå¡«å…¥ï¼Œè¯·åŒºåˆ†å¤§å°å†™ã€ä¸­è‹±æ–‡å­—ç¬¦ã€‚
 req_login = urllib2.Request(url_login,headers=send_headers_login)
 response_login = urllib2.urlopen(req_login,data_login)
 xauth = response_login.headers['X-Auth']
 COOOOOOOOkie = response_login.headers['Set-Cookie']
-print "µ±Ç°ÑéÖ¤ĞÅÏ¢ÈçÏÂ\r\n cookie : %r  \r\n X-Auth : %r  "%(COOOOOOOOkie,xauth)
+print "å½“å‰éªŒè¯ä¿¡æ¯å¦‚ä¸‹\r\n cookie : %r  \r\n X-Auth : %r  "%(COOOOOOOOkie,xauth)
 send_headers2={	
 	'Host':'localhost:3443',
 	'Accept': 'application/json, text/plain, */*',
@@ -34,22 +34,22 @@ send_headers2={
 	'X-Auth':xauth,
 	'Cookie':COOOOOOOOkie
 	}
-#ÒÔÉÏ´úÂëÊµÏÖµÇÂ¼£¨»ñÈ¡cookie£©ºÍĞ£ÑéÖµ
+#ä»¥ä¸Šä»£ç å®ç°ç™»å½•ï¼ˆè·å–cookieï¼‰å’Œæ ¡éªŒå€¼
 def add_exec_scan():
 	url="https://localhost:3443/api/v1/targets"
 	try:
-		urllist=open('testawvs.txt','r')#ÕâÊÇÒªÌí¼ÓµÄurlÁĞ±í
+		urllist=open('testawvs.txt','r')#è¿™æ˜¯è¦æ·»åŠ çš„urlåˆ—è¡¨
 		formaturl=urllist.readlines()
 		for i in formaturl:
 			target_url='http://'+i.strip()
 			data='{"description":"222","address":"'+target_url+'","criticality":"10"}'
-			#data = urllib.urlencode(data)ÓÉÓÚÊ¹ÓÃjson¸ñÊ½ËùÒÔ²»ÓÃÌí¼Ó
+			#data = urllib.urlencode(data)ç”±äºä½¿ç”¨jsonæ ¼å¼æ‰€ä»¥ä¸ç”¨æ·»åŠ 
 			req = urllib2.Request(url,headers=send_headers2)
 			response = urllib2.urlopen(req,data)
 			jo=json.loads(response.read())
-			target_id=jo['target_id']#»ñÈ¡Ìí¼ÓºóµÄÈÎÎñID
+			target_id=jo['target_id']#è·å–æ·»åŠ åçš„ä»»åŠ¡ID
 			#print target_id
-	#ÒÔÉÏ´úÂëÊµÏÖÅúÁ¿Ìí¼Ó
+	#ä»¥ä¸Šä»£ç å®ç°æ‰¹é‡æ·»åŠ 
 
 			url_scan="https://localhost:3443/api/v1/scans"
 			headers_scan={
@@ -64,8 +64,8 @@ def add_exec_scan():
 			data_scan='{"target_id":'+'\"'+target_id+'\"'+',"profile_id":"11111111-1111-1111-1111-111111111111","schedule":{"disable":false,"start_date":null,"time_sensitive":false},"ui_session_id":"66666666666666666666666666666666"}'
 			req_scan=urllib2.Request(url_scan,headers=headers_scan)
 			response_scan=urllib2.urlopen(req_scan,data_scan)
-			print response_scan.read()+"Ìí¼Ó³É¹¦£¡"
-	#ÒÔÉÏ´úÂëÊµÏÖÅúÁ¿¼ÓÈëÉ¨Ãè
+			print response_scan.read()+"æ·»åŠ æˆåŠŸï¼"
+	#ä»¥ä¸Šä»£ç å®ç°æ‰¹é‡åŠ å…¥æ‰«æ
 		urllist.close()
 	except Exception,e:
 		print e
@@ -74,9 +74,9 @@ def count():
 	url_count="https://localhost:3443/api/v1/notifications/count"
 	req_count=urllib2.Request(url_count,headers=send_headers2)
 	response_count=urllib2.urlopen(req_count)
-	print "µ±Ç°´æÔÚ%r¸öÍ¨Öª£¡" % json.loads(response_count.read())['count']
+	print "å½“å‰å­˜åœ¨%rä¸ªé€šçŸ¥ï¼" % json.loads(response_count.read())['count']
 	print "-" * 50
-	print "ÒÑ´æÔÚÒÔÏÂÈÎÎñ"
+	print "å·²å­˜åœ¨ä»¥ä¸‹ä»»åŠ¡"
 	url_info="https://localhost:3443/api/v1/scans"
 	req_info=urllib2.Request(url_info,headers=send_headers2)
 	response_info=urllib2.urlopen(req_info)
@@ -85,9 +85,9 @@ def count():
 	for website in all_info.get("scans"):
 		num+=1
 		print website.get("target").get("address")+" \r\n target_id:"+website.get("scan_id")
-	print "¹² %r¸öÉ¨ÃèÈÎÎñ" % num
+	print "å…± %rä¸ªæ‰«æä»»åŠ¡" % num
 		#count()
-#scan¡¢target¡¢notification£¡
+#scanã€targetã€notificationï¼
 def del_scan():
 	url_info="https://localhost:3443/api/v1/scans"
 	req_info=urllib2.Request(url_info,headers=send_headers2)
@@ -101,8 +101,8 @@ def del_scan():
 		req_del.get_method =lambda: 'DELETE'
 		response_del = urllib2.urlopen(req_del)
 		counter = counter+1
-		print "ÒÑ¾­É¾³ıµÚ%r¸ö!" %  counter
-#del_scan()			#Í¨¹ıÃèÊöÅĞ¶ÏÊÇ·ñÊ¹ÓÃÉ¨ÃèÆ÷Ìí¼ÓÉ¨ÃèÆ÷Ìí¼ÓµÄÊ±ºòÉèÖÃdescription=¡°222¡±
+		print "å·²ç»åˆ é™¤ç¬¬%rä¸ª!" %  counter
+#del_scan()			#é€šè¿‡æè¿°åˆ¤æ–­æ˜¯å¦ä½¿ç”¨æ‰«æå™¨æ·»åŠ æ‰«æå™¨æ·»åŠ çš„æ—¶å€™è®¾ç½®description=â€œ222â€
 def del_targets():
 	url_info="https://localhost:3443/api/v1/targets"
 	req_info=urllib2.Request(url_info,headers=send_headers2)
@@ -119,7 +119,7 @@ def del_targets():
 if __name__== "__main__":
 	print "*" * 20
 	count()
-	print "1¡¢Ê¹ÓÃtestawvs.txtÌí¼ÓÉ¨ÃèÈÎÎñ²¢Ö´ĞĞÇëÊäÈë1£¬È»ºó»Ø³µ\r\n2¡¢É¾³ıËùÓĞÊ¹ÓÃ¸Ã½Å±¾Ìí¼ÓµÄÈÎÎñÇëÊäÈë2£¬È»ºó»Ø³µ\r\n3¡¢É¾³ıËùÓĞÈÎÎñÇëÊäÈë3£¬È»ºó»Ø³µ\r\n4¡¢²é¿´ÒÑ´æÔÚÈÎÎñÇëÊäÈë4£¬È»ºó»Ø³µ\r\n"
+	print "1ã€ä½¿ç”¨testawvs.txtæ·»åŠ æ‰«æä»»åŠ¡å¹¶æ‰§è¡Œè¯·è¾“å…¥1ï¼Œç„¶åå›è½¦\r\n2ã€åˆ é™¤æ‰€æœ‰ä½¿ç”¨è¯¥è„šæœ¬æ·»åŠ çš„ä»»åŠ¡è¯·è¾“å…¥2ï¼Œç„¶åå›è½¦\r\n3ã€åˆ é™¤æ‰€æœ‰ä»»åŠ¡è¯·è¾“å…¥3ï¼Œç„¶åå›è½¦\r\n4ã€æŸ¥çœ‹å·²å­˜åœ¨ä»»åŠ¡è¯·è¾“å…¥4ï¼Œç„¶åå›è½¦\r\n"
 	choice = raw_input(">")
 #	print type(choice)
 	if choice =="1":
@@ -135,9 +135,9 @@ if __name__== "__main__":
 		del_scan()
 		count()
 	else:
-		print "ÇëÊäÈë1¡¢2¡¢3¡¢4Ñ¡Ôñ¡£"
+		print "è¯·è¾“å…¥1ã€2ã€3ã€4é€‰æ‹©ã€‚"
 		
-#ÏÂÍ¼µÄ×¢ÊÍĞÅÏ¢ÊÇÉ¾³ıÍ¨Öª¡£¡£	
+#ä¸‹å›¾çš„æ³¨é‡Šä¿¡æ¯æ˜¯åˆ é™¤é€šçŸ¥ã€‚ã€‚	
 """	
 	counter= 0
 	for website in all_info.get("notifications"):
@@ -146,7 +146,7 @@ if __name__== "__main__":
 			url_del = "https://localhost:3443/api/v1/scans/"+str(website["data"].get("scan_id"))
 			print url_del#print url_del
 			req_del = urllib2.Request(url_del,headers=send_headers2)
-			 #DELETE·½·¨
+			 #DELETEæ–¹æ³•
 			try:
 				req_del.get_method = lambda:"DELETE"
 				response1 = urllib2.urlopen(req_del)
